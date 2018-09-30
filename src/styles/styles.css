@@ -1,0 +1,97 @@
+@import url(~bootstrap/dist/css/bootstrap.css);
+@import url(~font-awesome/css/font-awesome.css);
+body,
+html {
+  background: #8e0e00;
+  background: -webkit-linear-gradient(to bottom, #1f1c18, #8e0e00);
+  background: linear-gradient(to bottom, #1f1c18, #8e0e00); }
+
+nav.navbar {
+  background-color: #1f1c18; }
+  nav.navbar .navbar-brand {
+    color: #eecf6d; }
+  nav.navbar .big-button {
+    display: none; }
+
+.movie-box {
+  position: relative;
+  margin-top: 20px; }
+  .movie-box .main-view-image {
+    box-shadow: 6px 7px 32px black;
+    width: 300px;
+    height: 400px; }
+  .movie-box .invisible-info {
+    display: none; }
+  .movie-box:hover .main-view-image {
+    opacity: 0.3; }
+  .movie-box:hover .invisible-info {
+    opacity: 1;
+    transition: 0.5s ease;
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    left: 47%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    display: inline-block;
+    color: #eecf6d; }
+
+.thumbnail-pic {
+  box-shadow: 6px 7px 32px black;
+  height: 300px;
+  width: 100%; }
+
+.movie-modal {
+  background: -webkit-linear-gradient(to bottom, #774b49, #d6c9c8);
+  background: linear-gradient(to bottom, #774b49, #d6c9c8);
+  color: #1f1c18; }
+  .movie-modal .info-column span {
+    font-weight: bold;
+    padding-right: 5px; }
+  .movie-modal .mobile {
+    display: none; }
+  .movie-modal .star {
+    position: relative;
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #b0c4de; }
+  .movie-modal .filled {
+    color: #eecf6d; }
+  .movie-modal .half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: #eecf6d; }
+
+.add-movie {
+  display: flex;
+  align-items: center; }
+  .add-movie .underline-add-movie {
+    font-size: 30px;
+    color: #eecf6d; }
+    .add-movie .underline-add-movie .add-movie-text {
+      margin-left: 40px;
+      margin-top: 40px; }
+    .add-movie .underline-add-movie:hover {
+      text-decoration: underline; }
+      .add-movie .underline-add-movie:hover .fa-plus {
+        text-decoration: underline; }
+
+@media (max-width: 767.98px) {
+  .movie-modal .modal-picture {
+    display: none; }
+  .movie-modal .mobile {
+    display: inline-block; }
+  .movie-modal .regular {
+    display: none; }
+
+  nav.navbar .navbar-toggler,
+  nav.navbar .collapse.navbar-collapse,
+  nav.navbar .search-button {
+    display: none; }
+  nav.navbar .big-button {
+    display: inline-block;
+    margin-top: 10px; } }
+
+/*# sourceMappingURL=styles.css.map */

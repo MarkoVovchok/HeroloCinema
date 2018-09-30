@@ -1,0 +1,132 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+body,
+html {
+  background: #8e0e00;
+  background: -webkit-linear-gradient(to bottom, #1f1c18, #8e0e00);
+  background: linear-gradient(to bottom, #1f1c18, #8e0e00);
+}
+
+nav.navbar {
+  background-color: #1f1c18;
+  .navbar-brand {
+    color: #eecf6d;
+  }
+  .big-button {
+    display: none;
+  }
+}
+
+.movie-box {
+  position: relative;
+  margin-top: 20px;
+  .main-view-image {
+    box-shadow: 6px 7px 32px black;
+    width: 300px;
+    height: 400px;
+  }
+  .invisible-info {
+    display: none;
+  }
+  &:hover {
+    .main-view-image {
+      opacity: 0.3;
+    }
+    .invisible-info {
+      opacity: 1;
+      transition: 0.5s ease;
+      position: absolute;
+      font-size: 20px;
+      top: 50%;
+      left: 47%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      text-align: center;
+      display: inline-block;
+      color: #eecf6d;
+    }
+  }
+}
+
+.thumbnail-pic {
+  box-shadow: 6px 7px 32px black;
+  height: 300px;
+  width: 100%;
+}
+
+.movie-modal {
+  background: -webkit-linear-gradient(to bottom, #774b49, #d6c9c8);
+  background: linear-gradient(to bottom, #774b49, #d6c9c8);
+  color: #1f1c18;
+  .info-column {
+    span {
+      font-weight: bold;
+      padding-right: 5px;
+    }
+  }
+  .mobile {
+    display: none;
+  }
+
+  .star {
+    position: relative;
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #b0c4de;
+  }
+  .filled {
+    color: #eecf6d;
+  }
+  .half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: #eecf6d;
+  }
+}
+
+.add-movie {
+  display: flex;
+  align-items: center;
+  .underline-add-movie {
+    font-size: 30px;
+    color: #eecf6d;
+    .add-movie-text {
+      margin-left: 40px;
+      margin-top: 40px;
+    }
+    &:hover {
+      .fa-plus {
+        text-decoration: underline;
+      }
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .movie-modal {
+    .modal-picture {
+      display: none;
+    }
+    .mobile {
+      display: inline-block;
+    }
+    .regular {
+      display: none;
+    }
+  }
+
+  nav.navbar {
+    .navbar-toggler,
+    .collapse.navbar-collapse,
+    .search-button {
+      display: none;
+    }
+    .big-button {
+      display: inline-block;
+      margin-top: 10px;
+    }
+  }
+}

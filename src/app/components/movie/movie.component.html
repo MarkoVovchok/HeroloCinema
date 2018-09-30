@@ -1,0 +1,14 @@
+<div>
+  <div class="flex-row"> 
+    <div class="flex-column">
+      <div class="movie-box d-flex justify-content-center">
+        <img class="main-view-image" [src]="movie.Poster | img">
+        <div class="invisible-info text-center">
+          <div>{{movie.Title | title | titlecase}}</div>
+          <div>{{movie.Year}}</div>
+          <div>IMDB Rating: {{movie.imdbRating}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

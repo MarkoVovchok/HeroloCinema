@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let item of moviesToShow">
+      <movie-component [movie]="item" (click)="openInfoPopup(item)"></movie-component>
+    </div>
+    <div class="col-md-4 add-movie">
+      <div class="underline-add-movie" (click)="openInfoPopup()">
+        <div class="d-flex justify-content-center">
+          <span class="add-movie-text align-self-center">
+            <i class="fa fa-plus"></i>
+            Add Movie...
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <span class="navbar-brand mx-auto">Herolo Movies Collection</span>
+
+  <button class="navbar-toggler" type="button" aria-controls="navBar" [attr.aria-expanded]="!isCollapsed" (click)="isCollapsed = !isCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navBar" [ngbCollapse]="isCollapsed">
+    <div class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <span class="nav-item nav-link" (click)="changeCollection('Star Wars')"> Star Wars</span>
+      <span class="nav-item nav-link" (click)="changeCollection('Game Of Thrones')"> Game of Thrones</span>
+      <span class="nav-item nav-link" (click)="changeCollection('Star Trek')"> Star Trek </span>
+    </div>
+  </div>
+
+  <form class="form-inline mx-auto">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search for a movie..." #search aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-lg-0 search-button" (click)="changeCollection(search.value)">Search</button>
+    <button class="btn btn-success btn-block big-button mx-auto" (click)="changeCollection(search.value)">Search</button>
+  </form>
+</nav>

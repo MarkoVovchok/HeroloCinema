@@ -1,0 +1,189 @@
+<ngx-flip [flip]="editMode">
+    <div front>
+        <div class="movie-modal">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title" *ngIf="movie.Title">{{movie.Title | title | titlecase}},
+                    {{movie.Year}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row modal-body">
+                <div class="col modal-picture">
+                    <img [src]="movie.Poster | img" class="thumbnail-pic">
+                    <div class="text-center">
+                        <ngb-rating
+                         [readonly]="true"
+                         [(rate)]="movie.imdbRating">
+                            <ng-template let-fill="fill">
+                                <span class="star" [class.filled]="fill === 100">
+                                    <span class="half" [style.width.%]="fill">&#9733;</span>
+                                    &#9733;</span>
+                            </ng-template>
+                        </ngb-rating>
+                    </div>
+                    <div class="text-center"><span>IMDB Rating:</span>{{movie.imdbRating}}</div>
+                </div>
+                <div class="col info-column">
+                    <div><span>Released:</span>{{movie.Released | date:'d MMM yyyy'}}</div>
+                    <div><span>Genre:</span>{{movie.Genre}}</div>
+                    <div><span>Director:</span>{{movie.Director}}</div>
+                    <div><span>Runtime:</span>{{movie.Runtime}}</div>
+                    <div><span>Plot:</span>{{movie.Plot}}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger regular" *ngIf="!newMode" (click)="openDeletePopup()">Remove
+                    from Collection</button>
+                <button type="button" class="btn btn-outline-danger mobile" *ngIf="!newMode" (click)="openDeletePopup()">Delete</button>
+                <button type="button" class="btn btn-outline-dark" (click)="toggleEditMode()">Edit</button>
+                <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+            </div>
+        </div>
+    </div>
+    <div back>
+        <div class="movie-modal">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">{{ newMode ? 'New Movie:' : 'Edit Mode:'}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form #editForm="ngForm" novalidate>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="id">ID:</label>
+                            <div class="col-sm-10">
+                                <div class="form-control" readonly>{{editableMovie.imdbID}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="title" name="title" #title="ngModel"
+                                    [class.is-invalid]="!titleValid || (title.invalid && title.touched)" [(ngModel)]="editableMovie.Title"
+                                    (ngModelChange)="askForValidation($event)" [ngModelOptions]="{updateOn: 'blur'}"
+                                    required>
+                                <div *ngIf="!titleValid" class="text-danger font-weight-bold">
+                                    This title is already in use!
+                                </div>
+                                <div *ngIf="title.invalid && (title.dirty || title.touched)">
+                                    <div *ngIf="title.errors.required" class="text-danger font-weight-bold">
+                                        Title is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="year">Year:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="year" name="year" [class.is-invalid]="year.invalid && year.touched"
+                                    [(ngModel)]="editableMovie.Year" #year="ngModel" required>
+                                <div *ngIf="year.invalid && (year.dirty || year.touched)">
+                                    <div *ngIf="year.errors.required" class="text-danger font-weight-bold">
+                                        Year is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="released">Release:</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="released" name="released"
+                                    [class.is-invalid]="(released.invalid && released.touched) || !yearValid"
+                                    [(ngModel)]="editableMovie.Released" (ngModelChange)="validateDate($event)"
+                                    [ngModelOptions]="{updateOn: 'blur'}" #released="ngModel" required>
+                                <div *ngIf="!yearValid" class="text-danger font-weight-bold">
+                                    This movie can't be released before cinematografy invention!
+                                </div>
+                                <div *ngIf="released.invalid && (released.dirty || released.touched)">
+                                    <div *ngIf="released.errors.required" class="text-danger font-weight-bold">
+                                        Release date is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="genre">Genre:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="genre" name="genre" [(ngModel)]="editableMovie.Genre"
+                                    #genre="ngModel" [class.is-invalid]="genre.invalid && genre.touched" required>
+                                <div *ngIf="genre.invalid && (genre.dirty || genre.touched)">
+                                    <div *ngIf="genre.errors.required" class="text-danger font-weight-bold">
+                                        Genre is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="director">Director:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="director" name="director" [(ngModel)]="editableMovie.Director"
+                                    #director="ngModel" [class.is-invalid]="director.invalid && director.touched"
+                                    required>
+                                <div *ngIf="director.invalid && (director.dirty || director.touched)">
+                                    <div *ngIf="director.errors.required" class="text-danger font-weight-bold">
+                                        Director is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="runtime">Runtime:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="runtime" name="runtime" [(ngModel)]="editableMovie.Runtime"
+                                    #runtime="ngModel" [class.is-invalid]="runtime.invalid && runtime.touched" required>
+                                <div *ngIf="runtime.invalid && (runtime.dirty || runtime.touched)">
+                                    <div *ngIf="runtime.errors.required" class="text-danger font-weight-bold">
+                                        Runtime is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="rating">IMDB Rating:</label>
+                            <div class="col-sm-10">
+                                <input type="textarea" class="form-control" id="rating" name="rating" [(ngModel)]="editableMovie.imdbRating"
+                                    #rating="ngModel" [class.is-invalid]="rating.invalid && rating.touched" required>
+                                <div *ngIf="rating.invalid && (rating.dirty || rating.touched)">
+                                    <div *ngIf="rating.errors.required" class="text-danger font-weight-bold">
+                                        Rating is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="poster">Poster:</label>
+                            <div class="col-sm-10">
+                                <input style="display: none" type="file" (change)="onPictureChanged($event)" #fileInput>
+                                <button class="btn btn-outline-secondary" (click)="fileInput.click()">Select File</button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label font-weight-bold" for="plot">Plot:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="plot" name="plot" [(ngModel)]="editableMovie.Plot"
+                                    #plot="ngModel" [class.is-invalid]="plot.invalid && plot.touched" required>
+                                <div *ngIf="plot.invalid && (plot.dirty || plot.touched)">
+                                    <div *ngIf="plot.errors.required" class="text-danger font-weight-bold">
+                                        Plot is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger regular" *ngIf="!newMode" (click)="openDeletePopup()">Remove
+                    from Collection</button>
+                <button type="button" class="btn btn-outline-danger mobile" *ngIf="!newMode" (click)="openDeletePopup()">Delete</button>
+                <button type="button" class="btn btn-outline-dark" (click)="saveChanges()" [disabled]="!titleValid || editForm.invalid">Save</button>
+                <button type="button" class="btn btn-outline-dark" (click)="cancelOrPreviewChanges()"> {{newMode ?
+                    'Preview' :
+                    'Cancel'}}</button>
+            </div>
+        </div>
+    </div>
+</ngx-flip>
